@@ -3,13 +3,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>6df72137-e856-4e87-9e82-aef14d2b3bd4</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
+    <ProjectHome>
+    </ProjectHome>
     <StartupFile>Main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>LangGraphCoder</Name>
+    <Name>Helix-Agent</Name>
     <RootNamespace>LangGraphCoder</RootNamespace>
     <InterpreterId>CondaEnv|CondaEnv|AIAssistant</InterpreterId>
   </PropertyGroup>

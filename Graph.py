@@ -76,8 +76,8 @@ def build_graph(mode: str):
             "diff_generator",
             should_require_approval,
             {
-                "approve": "human_approval",  # changes exist — ask user
-                "run": "docker_runner"         # no changes — skip straight to run
+                "approve": "human_approval",  # changes exist -- ask user
+                "run": "docker_runner"         # no changes -- skip straight to run
             }
         )
 

@@ -2,7 +2,7 @@
 import subprocess
 from State import AgentState
 from LLM import invoke_llm, llm
-from Utils import strip_markdown_fences, normalize_reviewer_output, ensure_workdir, materialize_workspace
+from Utils import get_entry_point, strip_markdown_fences, normalize_reviewer_output, ensure_workdir, materialize_workspace
 from Config import DOCKER_ENABLED, DOCKER_TIMEOUT
 
 
@@ -268,7 +268,10 @@ def docker_runner_node(state: AgentState) -> AgentState:
             "execution_error": None
         }
 
-    entry = state["entry_point"]
+    #get the entry point
+    #entry = state["entry_point"]
+    entry = get_entry_point(state)
+    
 
     if entry not in state["workspace"]:
         raise FileNotFoundError(
@@ -339,7 +342,7 @@ IMPORTANT RULES:
     if response.strip() == "APPROVED":
         # ✅ Skip ALL remaining steps, not just increment by 1
         state["current_step"] = len(state["plan"])
-        print(f"[REVIEWER] Approved — skipping all remaining steps")
+        print(f"[REVIEWER] Approved -- skipping all remaining steps")
         return state
 
     clean = normalize_reviewer_output(response)

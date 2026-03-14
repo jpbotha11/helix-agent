@@ -1,4 +1,4 @@
-from typing import TypedDict, Dict, List, Optional
+from typing import TypedDict, Dict, List, Optional, Any
 
 
 class AgentState(TypedDict):
@@ -35,6 +35,12 @@ class AgentState(TypedDict):
     impact_analysis: Optional[dict]
     diff: Optional[str]
     approval_status: Optional[str]      # "pending" | "approved" | "rejected"
+
+    # Vector store fields
+    vector_graph: Optional[Any]              # FileRelationshipGraph instance
+    vector_indexed: Optional[bool]           # True after indexing complete
+    relevant_files: Optional[Dict[str, str]] # files within context budget
+    excluded_summaries: Optional[List[str]]  # summaries of excluded files
 
     # Final result
     final_output: Optional[str]

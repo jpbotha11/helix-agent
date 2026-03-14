@@ -1,5 +1,6 @@
 import shutil
 from pathlib import Path
+from LLM import invoke_llm
 from State import AgentState
 from Config import WORKSPACE_ROOT
 
@@ -64,3 +65,25 @@ def materialize_workspace(state: AgentState) -> Path:
         path.write_text(content, encoding="utf-8")
 
     return workdir
+
+def get_entry_point(state: AgentState) -> str:
+    if state.get("mode") == "modify":
+        # LLM determines entry point from existing files
+        file_list = "\n".join(state["workspace"].keys())
+        prompt = f"""
+Given these project files, which is the main entry point to run the project?
+Return ONLY the filename, nothing else.
+
+Files:
+{file_list}
+"""
+        return invoke_llm(prompt, "entry_point_detector").strip()
+
+    # Generate mode - use what the planner set
+    entry = state["entry_point"]
+    if entry not in state["workspace"]:
+        raise FileNotFoundError(
+            f"Entry point '{entry}' not found in workspace files: "
+            f"{list(state['workspace'].keys())}"
+        )
+    return entry

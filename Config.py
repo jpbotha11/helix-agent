@@ -11,6 +11,7 @@ DOCKER_ENABLED = os.getenv("DOCKER_ENABLED", "true").lower() == "true"
 DOCKER_TIMEOUT = int(os.getenv("DOCKER_TIMEOUT", "1000"))
 AGENT_MODE = os.getenv("AGENT_MODE", "generate")  # "generate" | "modify"
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "azure")
+WORKING_DIRECTORY = os.getenv("WORKING_DIRECTORY", "./agent_workspaces")
 
 # =========================================================
 # PATHS

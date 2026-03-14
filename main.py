@@ -5,7 +5,7 @@ os.environ["PYTHONIOENCODING"] = "utf-8"
 import LLM as llm_module
 from LLM import langfuse
 from Graph import build_graph
-from Config import AGENT_MODE
+from Config import AGENT_MODE, WORKING_DIRECTORY
 
 # =========================================================
 # INITIAL STATE TEMPLATES
@@ -27,7 +27,7 @@ def generate_initial_state(user_goal: str) -> dict:
         "plan": [],
         "current_step": 0,
         "workspace": {},
-        "workdir": None,
+        "workdir": WORKING_DIRECTORY,
         "file_summaries": {},
         "execution_output": None,
         "execution_error": None,
@@ -54,7 +54,7 @@ def modify_initial_state(user_goal: str, source_folder: str) -> dict:
         "plan": [],
         "current_step": 0,
         "workspace": {},
-        "workdir": None,
+        "workdir": WORKING_DIRECTORY,
         "file_summaries": {},
         "execution_output": None,
         "execution_error": None,
@@ -72,45 +72,21 @@ if __name__ == "__main__":
 
     if mode == "modify":
         user_goal = """
-        Add a feature importance analysis to the existing ML pipeline:
-
-1. For the Random Forest model, extract and print feature importances.
-2. Save feature importances to a new CSV file called feature_importance.csv 
-   with columns: feature, importance.
-3. Print the top feature with highest importance to console.
+        Change the crawler to read the seed url from a text file called "seed_url.txt" instead of having it hardcoded in the script.
+        The crawler should read the URL from the file and then proceed with the crawling process as before.
+        Crawl 3 layers deep.
+        Save the html of each file in a text file.
+        Do not accept any command line arguments when running the script.
 
         """
-        source_folder = "./agent_workspaces/run_0"
+        source_folder = WORKING_DIRECTORY
         app = build_graph("modify")
         initial_state = modify_initial_state(user_goal, source_folder)
 
     else:
-        user_goal = """
-Create a multi-file Python app that builds a machine learning pipeline:
-
-1. Generate a synthetic dataset with 200 samples and 4 features using 
-   scikit-learn make_classification with 2 classes.
-
-2. Split data into 80% train and 20% test sets.
-
-3. Train three models and compare them:
-   - Logistic Regression
-   - Random Forest
-   - K-Nearest Neighbors
-
-4. For each model evaluate and print:
-   - Accuracy
-   - Precision
-   - Recall
-   - F1 Score
-
-5. Save results to a CSV file called model_comparison.csv.
-
-6. Print a formatted summary table to console showing all models and metrics.
-
-Use separate files for: dataset generation, model training, evaluation, and main entry point.
-Dependencies: scikit-learn, pandas
-"""
+        user_goal =  """
+        Create me a basic web crawler that will start with a seed url, extract all the links from that page, and then visit each of those links and repeat the process for a total of 3 iterations. The crawler should save the results in a JSON file with the following format:
+        """
         app = build_graph("generate")
         initial_state = generate_initial_state(user_goal)
 
